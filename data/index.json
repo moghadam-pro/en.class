@@ -1,0 +1,55 @@
+{
+  "generated_at": "2026-06-11T11:07:15.679650Z",
+  "total": 3,
+  "topics": [
+    {
+      "slug": "friendship",
+      "title": "Friendship",
+      "summary": "What makes a true friend? Explore the nature of friendship, how it changes across life stages, and the qualities that make some friendships last a lifetime.",
+      "level": "B1",
+      "tags": [
+        "relationships",
+        "social",
+        "lifestyle",
+        "values"
+      ],
+      "cover": "",
+      "created_at": "2025-01-20T10:00:00+00:00",
+      "question_count": 7,
+      "vocab_count": 5
+    },
+    {
+      "slug": "jealousy",
+      "title": "Jealousy",
+      "summary": "Explore the complex emotion of jealousy \u2014 where it comes from, when it becomes destructive, and how to manage it in relationships and daily life.",
+      "level": "B2",
+      "tags": [
+        "emotions",
+        "relationships",
+        "psychology",
+        "self-awareness"
+      ],
+      "cover": "",
+      "created_at": "2025-01-15T10:00:00+00:00",
+      "question_count": 7,
+      "vocab_count": 5
+    },
+    {
+      "slug": "success",
+      "title": "Success",
+      "summary": "What does success really mean? Is it wealth, happiness, or something else entirely? Explore diverse definitions of success and the paths people take to achieve their goals.",
+      "level": "C1",
+      "tags": [
+        "career",
+        "motivation",
+        "values",
+        "life-goals",
+        "psychology"
+      ],
+      "cover": "",
+      "created_at": "2025-01-25T10:00:00+00:00",
+      "question_count": 7,
+      "vocab_count": 5
+    }
+  ]
+}

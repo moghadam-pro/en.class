@@ -1,0 +1,97 @@
+{
+    "slug": "friendship",
+    "title": "Friendship",
+    "cover": "",
+    "summary": "What makes a true friend? Explore the nature of friendship, how it changes across life stages, and the qualities that make some friendships last a lifetime.",
+    "level": "B1",
+    "tags": ["relationships", "social", "lifestyle", "values"],
+    "questions": [
+        { "text": "What qualities do you think are most important in a true friend?", "level": "A2", "type": "opinion" },
+        { "text": "Do you think online friendships can be as meaningful as in-person ones?", "level": "B1", "type": "contemporary" },
+        { "text": "How has social media changed the way people make and keep friends?", "level": "B2", "type": "analytical" },
+        { "text": "Is it possible to have a real friendship with someone much older or younger than you?", "level": "B1", "type": "opinion" },
+        { "text": "Describe your best friend. What makes your friendship special?", "level": "A2", "type": "personal" },
+        { "text": "Have you ever lost a friendship? What happened and how did you feel?", "level": "B1", "type": "personal" },
+        { "text": "Can men and women truly be 'just friends'? Why do some people doubt this?", "level": "B2", "type": "debate" }
+    ],
+    "vocabulary": [
+        {
+            "word": "loyal",
+            "definition": "Showing firm and constant support or allegiance to a person.",
+            "pronunciation": "lɔɪəl",
+            "examples": ["A loyal friend stands by you even when times are hard."],
+            "collocations": ["loyal friend", "loyal supporter", "fiercely loyal", "stay loyal"]
+        },
+        {
+            "word": "trustworthy",
+            "definition": "Deserving of trust or confidence; dependable and reliable.",
+            "pronunciation": "trʌstwɜːði",
+            "examples": ["She proved herself trustworthy by keeping my secret for years."],
+            "collocations": ["trustworthy person", "completely trustworthy", "prove trustworthy"]
+        },
+        {
+            "word": "bond",
+            "definition": "A connection or feeling that unites two or more people.",
+            "pronunciation": "bɒnd",
+            "examples": ["They formed a strong bond during their years of studying together."],
+            "collocations": ["form a bond", "strong bond", "unbreakable bond", "emotional bond"]
+        },
+        {
+            "word": "drift apart",
+            "definition": "To gradually become less close to someone over time.",
+            "pronunciation": "drɪft əˈpɑːt",
+            "examples": ["We drifted apart after she moved to another city."],
+            "collocations": ["slowly drift apart", "drift apart over time", "friends drift apart"]
+        },
+        {
+            "word": "acquaintance",
+            "definition": "A person one knows slightly but who is not a close friend.",
+            "pronunciation": "əˈkweɪntəns",
+            "examples": ["He has many acquaintances but very few real friends."],
+            "collocations": ["mere acquaintance", "mutual acquaintance", "business acquaintance"]
+        }
+    ],
+    "collocations": [
+        "strike up a friendship",
+        "long-lasting friendship",
+        "mutual friend",
+        "fall out with a friend",
+        "patch things up",
+        "have each other's backs"
+    ],
+    "phrases": [
+        "A friend in need is a friend indeed.",
+        "Quality over quantity when it comes to friendships.",
+        "True friends are hard to find."
+    ],
+    "idioms": [
+        "A shoulder to cry on — someone who listens to your problems",
+        "Hit it off — to immediately become good friends",
+        "Thick as thieves — very close friends who share secrets"
+    ],
+    "quotes": [
+        { "text": "Friendship is born at the moment one person says to another, 'What! You too? I thought I was the only one.'", "author": "C.S. Lewis" }
+    ],
+    "teacher_notes": "This is an excellent topic for lower-intermediate students. Use the vocabulary to practice adjective forms and comparatives. The 'can men and women be friends?' question generates lively debate.",
+    "games": [
+        {
+            "name": "Two Truths, One Lie — Friendship Edition",
+            "description": "Students share three statements about their friendships. Two are true, one is a lie. The class guesses which one is false.",
+            "players": "4–15",
+            "time": "15 min"
+        },
+        {
+            "name": "Friendship Spectrum",
+            "description": "Read statements about friendship (e.g. 'Honesty is always the best policy between friends'). Students position themselves on a line from 'Agree' to 'Disagree' and explain their position.",
+            "players": "6+",
+            "time": "20 min"
+        }
+    ],
+    "roleplay": [
+        {
+            "scenario": "Your best friend forgot your birthday. How do you bring it up without causing an argument?",
+            "roles": ["The hurt friend", "The forgetful friend"]
+        }
+    ],
+    "created_at": "2025-01-20T10:00:00+00:00"
+}

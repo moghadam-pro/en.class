@@ -1,0 +1,99 @@
+{
+    "slug": "success",
+    "title": "Success",
+    "cover": "",
+    "summary": "What does success really mean? Is it wealth, happiness, or something else entirely? Explore diverse definitions of success and the paths people take to achieve their goals.",
+    "level": "C1",
+    "tags": ["career", "motivation", "values", "life-goals", "psychology"],
+    "questions": [
+        { "text": "How do you personally define success? Has your definition changed over the years?", "level": "B2", "type": "personal" },
+        { "text": "Is success mostly the result of hard work, talent, or luck?", "level": "C1", "type": "analytical" },
+        { "text": "Do you think society pressures people into pursuing a specific type of success (e.g. wealth, status)?", "level": "C1", "type": "critical" },
+        { "text": "Can someone be successful professionally but a failure in their personal life?", "level": "B2", "type": "hypothetical" },
+        { "text": "What role does failure play in achieving success?", "level": "B2", "type": "opinion" },
+        { "text": "Do you think the definition of success differs between generations? How?", "level": "C1", "type": "comparative" },
+        { "text": "If you could choose between being famous and being happy, which would you pick? Why?", "level": "B1", "type": "values" }
+    ],
+    "vocabulary": [
+        {
+            "word": "perseverance",
+            "definition": "Continued effort and determination in doing something despite difficulty or failure.",
+            "pronunciation": "pɜːsɪˈvɪərəns",
+            "examples": ["Her perseverance finally paid off after years of rejection."],
+            "collocations": ["show perseverance", "remarkable perseverance", "through perseverance"]
+        },
+        {
+            "word": "milestone",
+            "definition": "A significant event or stage in the development or progress of something.",
+            "pronunciation": "maɪlstəʊn",
+            "examples": ["Getting her first published article was a major milestone in her career."],
+            "collocations": ["reach a milestone", "career milestone", "personal milestone", "hit a milestone"]
+        },
+        {
+            "word": "setback",
+            "definition": "A reversal or check in progress; a problem that delays or prevents something.",
+            "pronunciation": "sɛtbæk",
+            "examples": ["The company's bankruptcy was a major setback for his career."],
+            "collocations": ["suffer a setback", "overcome a setback", "temporary setback"]
+        },
+        {
+            "word": "aspiration",
+            "definition": "A hope or ambition of achieving something.",
+            "pronunciation": "æspɪˈreɪʃən",
+            "examples": ["His aspiration to become a doctor drove every decision he made."],
+            "collocations": ["career aspirations", "personal aspirations", "fulfil aspirations"]
+        },
+        {
+            "word": "fulfillment",
+            "definition": "Satisfaction or happiness as a result of fully developing one's abilities or character.",
+            "pronunciation": "fʊlˈfɪlmənt",
+            "examples": ["She found more fulfillment in teaching than in her previous corporate job."],
+            "collocations": ["sense of fulfillment", "personal fulfillment", "find fulfillment"]
+        }
+    ],
+    "collocations": [
+        "achieve success",
+        "define success",
+        "measure of success",
+        "strive for success",
+        "overnight success",
+        "taste of success",
+        "ladder of success"
+    ],
+    "phrases": [
+        "Success is not a destination, it's a journey.",
+        "Behind every success story is a failure story.",
+        "The definition of success is personal."
+    ],
+    "idioms": [
+        "Go from strength to strength — to keep getting more successful",
+        "Make it big — to become very successful",
+        "Hit the jackpot — to achieve something very valuable or profitable"
+    ],
+    "quotes": [
+        { "text": "Success is not final; failure is not fatal: it is the courage to continue that counts.", "author": "Winston Churchill" },
+        { "text": "The secret of success is to do the common thing uncommonly well.", "author": "John D. Rockefeller Jr." }
+    ],
+    "teacher_notes": "This advanced topic is ideal for C1 learners in professional or academic contexts. Encourage critical thinking about societal definitions of success versus personal values. The quotes work well as discussion starters.",
+    "games": [
+        {
+            "name": "Success Ranking",
+            "description": "Give each student a list of success factors: wealth, health, family, fame, freedom, knowledge. In pairs, they rank them and then debate their choices.",
+            "players": "4+",
+            "time": "15 min"
+        },
+        {
+            "name": "Famous Failure",
+            "description": "The teacher presents famous people who failed before succeeding (J.K. Rowling, Steve Jobs, etc.). Students discuss what makes these stories inspiring.",
+            "players": "Any",
+            "time": "20 min"
+        }
+    ],
+    "roleplay": [
+        {
+            "scenario": "A young person is torn between a high-paying job they don't love and a low-paying job they're passionate about. Advise them.",
+            "roles": ["The young professional", "Practical parent", "Idealistic friend", "Career counselor"]
+        }
+    ],
+    "created_at": "2025-01-25T10:00:00+00:00"
+}

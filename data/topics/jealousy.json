@@ -1,0 +1,99 @@
+{
+    "slug": "jealousy",
+    "title": "Jealousy",
+    "cover": "",
+    "summary": "Explore the complex emotion of jealousy — where it comes from, when it becomes destructive, and how to manage it in relationships and daily life.",
+    "level": "B2",
+    "tags": ["emotions", "relationships", "psychology", "self-awareness"],
+    "questions": [
+        { "text": "Have you ever felt jealous of a friend or colleague? What triggered the feeling?", "level": "B1", "type": "personal" },
+        { "text": "Is jealousy always a negative emotion, or can it sometimes be motivating?", "level": "B2", "type": "opinion" },
+        { "text": "How do different cultures view jealousy in romantic relationships?", "level": "B2", "type": "cultural" },
+        { "text": "What is the difference between jealousy and envy? Do you think the distinction matters?", "level": "C1", "type": "analytical" },
+        { "text": "Can social media make people more jealous? Why or why not?", "level": "B2", "type": "contemporary" },
+        { "text": "Describe a time when jealousy led to a positive outcome in your life.", "level": "B1", "type": "personal" },
+        { "text": "How should someone handle a jealous partner without hurting their feelings?", "level": "B2", "type": "advice" }
+    ],
+    "vocabulary": [
+        {
+            "word": "jealousy",
+            "definition": "The state of feeling threatened by a rival, especially in love or professional success.",
+            "pronunciation": "dʒɛləsi",
+            "examples": ["Her jealousy of her sister's success caused tension in the family.", "Jealousy can destroy even the strongest relationships."],
+            "collocations": ["feel jealousy", "overcome jealousy", "intense jealousy", "jealousy and envy"]
+        },
+        {
+            "word": "envy",
+            "definition": "A feeling of discontent or resentment because someone else has something desirable.",
+            "pronunciation": "ɛnvi",
+            "examples": ["He watched with envy as his colleague received the promotion."],
+            "collocations": ["green with envy", "professional envy", "feel envy towards"]
+        },
+        {
+            "word": "insecurity",
+            "definition": "Uncertainty or anxiety about oneself; lack of confidence.",
+            "pronunciation": "ɪnsɪˈkjʊərɪti",
+            "examples": ["Her insecurity about her looks led to jealousy whenever her partner spoke to others."],
+            "collocations": ["deep insecurity", "emotional insecurity", "trigger insecurity"]
+        },
+        {
+            "word": "possessive",
+            "definition": "Demanding someone's total attention and love; unwilling to share.",
+            "pronunciation": "pəˈzɛsɪv",
+            "examples": ["He became increasingly possessive as the relationship developed."],
+            "collocations": ["possessive partner", "overly possessive", "become possessive"]
+        },
+        {
+            "word": "resentment",
+            "definition": "Bitter indignation felt as a result of unfair treatment.",
+            "pronunciation": "rɪˈzɛntmənt",
+            "examples": ["Years of resentment built up between the two siblings."],
+            "collocations": ["harbor resentment", "build up resentment", "feelings of resentment"]
+        }
+    ],
+    "collocations": [
+        "overcome jealousy",
+        "harbor resentment",
+        "feel threatened",
+        "green with envy",
+        "trust issues",
+        "emotional wellbeing",
+        "manage emotions"
+    ],
+    "phrases": [
+        "Turn the green-eyed monster into a motivator.",
+        "Jealousy is a mirror that shows your own insecurities.",
+        "Compare yourself to who you were yesterday, not to others."
+    ],
+    "idioms": [
+        "Green with envy — extremely jealous",
+        "The green-eyed monster — jealousy personified",
+        "Keeping up with the Joneses — competing with neighbors or peers"
+    ],
+    "quotes": [
+        { "text": "Jealousy is the tribute mediocrity pays to genius.", "author": "Fulton J. Sheen" },
+        { "text": "The jealous are troublesome to others, but a torment to themselves.", "author": "William Penn" }
+    ],
+    "teacher_notes": "This topic works especially well for adult learners. Encourage students to share personal stories while being sensitive to cultural differences in discussing emotions. The 'jealousy vs envy' distinction is a great debate starter.",
+    "games": [
+        {
+            "name": "Emotion Debate",
+            "description": "Divide students into two groups. One argues jealousy is always harmful; the other argues it can be beneficial. Students must use vocabulary from the lesson.",
+            "players": "6–20",
+            "time": "20 min"
+        },
+        {
+            "name": "Scenario Cards",
+            "description": "Write jealousy scenarios on cards. Students draw a card, describe the situation, and the class discusses how the person should react.",
+            "players": "4+",
+            "time": "15 min"
+        }
+    ],
+    "roleplay": [
+        {
+            "scenario": "A friend just got a promotion you wanted. How do you handle the conversation?",
+            "roles": ["Promoted friend", "Jealous colleague", "Mutual friend"]
+        }
+    ],
+    "created_at": "2025-01-15T10:00:00+00:00"
+}
