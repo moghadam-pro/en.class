@@ -1,0 +1,28 @@
+# Environment
+.env
+
+# Composer
+/vendor/
+
+# Logs
+/logs/
+*.log
+
+# Cache
+/cache/
+
+# Uploaded temp files
+/uploads/
+
+# Generated index (rebuilt on server)
+/data/index.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
