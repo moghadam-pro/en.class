@@ -1,127 +1,266 @@
 # Free Discussion Class
 
-A production-oriented PHP 8.3 platform for interactive, searchable English discussion lessons at `https://sayid.ir/en.class`.
+An interactive, SEO-optimized web platform for ESL discussion topics — built with PHP 8.3, Alpine.js, and a Telegram Bot upload workflow. No database required.
 
-## Included
+**Live demo:** [en.class.sayid.ir](https://en.class.sayid.ir)
 
-- JSON topic repository with atomic writes and one file per topic
-- Full-text topic and vocabulary search
-- Daily and random topics, related topics, random prompts, discussion wheel, and speaking timer
-- Vocabulary detail sheets, role-plays, classroom games, print worksheets, reading mode, favorites, and copy actions
-- Responsive Tailwind UI, Alpine.js interactions, automatic dark mode, reduced-motion support, and WCAG-oriented markup
-- PWA manifest, service worker, offline caching, SEO metadata, OpenGraph/Twitter cards, JSON-LD, FAQ/breadcrumb schema, sitemap, and robots output
-- Admin-only Telegram DOCX/PDF publishing with webhook secret validation, MIME validation, safe parsing, index rebuild, stats, listing, and deletion
+---
 
-## Requirements
+## What it does
 
-- Ubuntu 24.04 or later
-- Nginx
-- PHP 8.3 FPM with `curl`, `dom`, `fileinfo`, `json`, `mbstring`, and `zip`
-- Poppler `pdftotext`
-- Node.js 20+ and npm for the production frontend build
-- Composer 2
+Weekly discussion topics are distributed as DOCX or PDF files. This platform transforms them into rich, interactive web pages that teachers and students can use directly in the browser — with vocabulary flashcards, speaking timers, discussion wheels, printable worksheets, and offline PWA support.
 
-## Install
+Admins upload files via Telegram. The bot parses the content, publishes it automatically, and replies with the live URL.
+
+---
+
+## Features
+
+### Learning Tools
+
+- Vocabulary flashcards with definitions, pronunciation, and collocations
+- Discussion wheel — randomly selects a question for the class
+- Speaking timer with configurable presets and audio cue
+- Roleplay scenario cards
+- Classroom game suggestions
+- Printable worksheets (CSS print styles)
+- Copy-to-clipboard for any question or phrase
+- Reading mode
+
+### Platform
+
+- Full-text search with relevance scoring
+- Filter by level (A1 → C2) and tags
+- Topic of the Day (deterministic daily rotation)
+- Random topic and random question generators
+- Related topics sidebar
+- Favorite topics (localStorage)
+- Offline support via Service Worker (PWA)
+- Auto dark mode (`prefers-color-scheme`)
+
+### SEO & Meta
+
+- Clean URLs (`/topic/jealousy`)
+- Dynamic `<title>`, meta descriptions, canonical URLs
+- OpenGraph + Twitter Card tags
+- JSON-LD: FAQ Schema + Breadcrumb Schema
+- Auto-generated XML sitemap at `/sitemap.xml`
+
+### Telegram Bot
+
+- Send a DOCX or PDF → bot parses, saves, and publishes in seconds
+- Admin whitelist by Telegram user ID
+- Commands: `/help` `/list` `/stats` `/rebuild` `/delete`
+- Webhook secret validation
+
+---
+
+## Tech Stack
+
+| Layer        | Technology                                |
+| ------------ | ----------------------------------------- |
+| Language     | PHP 8.3+                                  |
+| Frontend     | Alpine.js 3, vanilla CSS (no framework)   |
+| Storage      | JSON flat files (no database)             |
+| Server       | Nginx + PHP-FPM                           |
+| PDF parsing  | `pdftotext` (poppler-utils)               |
+| DOCX parsing | Native ZIP/XML (no external lib required) |
+| Bot          | Telegram Bot API (webhooks)               |
+| PWA          | Service Worker + Web App Manifest         |
+
+---
+
+## Project Structure
+
+```
+free-discussion-class/
+├── bootstrap.php               — autoloader, error handling
+├── composer.json
+├── .env.example                — environment variable template
+│
+├── config/
+│   ├── config.php              — app configuration
+│   └── nginx.conf              — production Nginx config
+│
+├── data/
+│   ├── index.json              — auto-generated topic index
+│   └── topics/
+│       ├── jealousy.json
+│       ├── friendship.json
+│       └── success.json
+│
+├── public/                     — Nginx document root
+│   ├── index.php               — front controller / router
+│   ├── css/app.css
+│   ├── js/app.js               — Alpine.js components
+│   ├── sw.js                   — Service Worker
+│   ├── manifest.json
+│   ├── icons/
+│   └── images/
+│
+├── scripts/
+│   ├── rebuild-index.php       — CLI: rebuild data/index.json
+│   └── setup-webhook.php       — CLI: register Telegram webhook
+│
+├── src/
+│   ├── helpers.php
+│   ├── Bot/TelegramBot.php
+│   ├── Core/Router.php
+│   ├── Core/HomeController.php
+│   ├── Core/TopicController.php
+│   ├── Parser/DocxParser.php
+│   ├── Parser/PdfParser.php
+│   ├── Parser/ParsedContent.php
+│   ├── SEO/MetaBuilder.php
+│   └── Topic/TopicRepository.php
+│
+├── templates/
+│   ├── layouts/base.php
+│   ├── pages/
+│   └── partials/
+│
+├── INSTALL.md                  — Ubuntu server setup guide
+└── DEPLOY.md                   — Deployment and update guide
+```
+
+---
+
+## Topic JSON Format
+
+Each topic is a single JSON file in `data/topics/`:
+
+```json
+{
+  "slug": "jealousy",
+  "title": "Jealousy",
+  "summary": "Explore the psychology of jealousy...",
+  "level": "B2",
+  "tags": ["emotions", "relationships", "psychology"],
+  "cover": "",
+  "questions": [
+    {
+      "text": "Have you ever felt jealous of a friend's success?",
+      "level": "B1",
+      "type": "personal"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "envious",
+      "definition": "feeling or showing envy",
+      "pronunciation": "/ˈen.vi.əs/",
+      "examples": ["She felt envious of her colleague's promotion."],
+      "collocations": ["deeply envious", "feel envious of"]
+    }
+  ],
+  "collocations": [],
+  "phrases": [],
+  "idioms": [],
+  "quotes": [{ "text": "...", "author": "..." }],
+  "teacher_notes": "",
+  "games": [
+    {
+      "name": "Hot Seat",
+      "description": "...",
+      "players": "4+",
+      "time": "10 min"
+    }
+  ],
+  "roleplay": [{ "scenario": "...", "roles": ["Student A", "Student B"] }],
+  "created_at": "2026-06-11"
+}
+```
+
+---
+
+## Quick Start (Local)
 
 ```bash
-sudo apt update
-sudo apt install nginx php8.3-fpm php8.3-cli php8.3-curl php8.3-xml \
-  php8.3-mbstring php8.3-zip poppler-utils composer nodejs npm certbot python3-certbot-nginx
-
-sudo mkdir -p /var/www/en.class/releases
-sudo cp -a free-discussion-class /var/www/en.class/releases/$(date +%Y%m%d%H%M%S)
-cd /var/www/en.class/releases/$(ls -1 /var/www/en.class/releases | tail -1)
+git clone https://github.com/youruser/free-discussion-class.git
+cd free-discussion-class
 
 cp .env.example .env
-composer install --no-dev --classmap-authoritative
-npm install
-npm run build
+# Edit .env with your Telegram bot token and admin IDs
 
-sudo chown -R root:www-data .
-sudo find . -type d -exec chmod 0750 {} \;
-sudo find . -type f -exec chmod 0640 {} \;
-sudo chmod 0755 public public/assets bin
-sudo chmod -R 0770 data storage
+composer install
 
-sudo ln -sfn "$PWD" /var/www/en.class/current
-sudo cp deploy/nginx.conf /etc/nginx/sites-available/free-discussion-class
-sudo ln -sfn /etc/nginx/sites-available/free-discussion-class /etc/nginx/sites-enabled/free-discussion-class
-sudo nginx -t
-sudo systemctl reload nginx
+php scripts/rebuild-index.php
+
+# Serve with PHP built-in server (development only)
+php -S localhost:8080 -t public/
 ```
 
-The repository includes a production asset build for immediate deployment. Run `npm run build` before each release to regenerate the minified Tailwind CSS and Alpine vendor file from the pinned dependencies.
+Open [http://localhost:8080](http://localhost:8080).
 
-## Configuration
+---
 
-Edit `.env`:
+## Server Deployment
 
-```dotenv
-APP_ENV=production
-APP_DEBUG=false
-APP_URL=https://sayid.ir/en.class
-APP_BASE_PATH=/en.class
-APP_TIMEZONE=Asia/Tehran
-TELEGRAM_BOT_TOKEN=123456:replace_me
-TELEGRAM_WEBHOOK_SECRET=use_a_long_random_value
-TELEGRAM_ADMINS=123456789,987654321
-MAX_UPLOAD_MB=12
-PDFTOTEXT_BIN=/usr/bin/pdftotext
-```
+See [INSTALL.md](INSTALL.md) for the full step-by-step Ubuntu guide covering:
 
-Generate the webhook secret with `openssl rand -hex 32`. Never commit `.env`.
+- PHP 8.3 + required extensions
+- Nginx configuration + SSL via Certbot
+- File permissions
+- Telegram webhook registration
+- Cron jobs
 
-## TLS and Telegram
+**One-line deploy sequence (after first install):**
 
 ```bash
-sudo certbot --nginx -d sayid.ir -d www.sayid.ir
-cd /var/www/en.class/current
-sudo -u www-data php bin/set-webhook.php
+composer install --no-dev --optimize-autoloader
+php scripts/rebuild-index.php
+sudo systemctl reload php8.3-fpm
 ```
 
-Telegram sends `X-Telegram-Bot-Api-Secret-Token`; the webhook rejects requests unless it exactly matches `TELEGRAM_WEBHOOK_SECRET`. Only IDs in `TELEGRAM_ADMINS` can execute commands or upload files.
+---
 
-Bot commands:
+## Environment Variables
 
-```text
-/help
-/list
-/stats
-/rebuild
-/delete topic-slug
-```
+Copy `.env.example` to `.env` and fill in:
 
-See [docs/AUTHORING.md](docs/AUTHORING.md) for the DOCX/PDF heading format.
+| Variable                  | Required | Description                               |
+| ------------------------- | -------- | ----------------------------------------- |
+| `APP_ENV`                 | yes      | `production` or `development`             |
+| `APP_URL`                 | yes      | Full URL e.g. `https://en.class.sayid.ir` |
+| `TELEGRAM_BOT_TOKEN`      | yes      | Token from @BotFather                     |
+| `TELEGRAM_ADMIN_IDS`      | yes      | Comma-separated Telegram user IDs         |
+| `TELEGRAM_WEBHOOK_SECRET` | yes      | Random secret for webhook validation      |
+| `GA_ID`                   | no       | Google Analytics measurement ID           |
 
-## Cron and maintenance
+---
 
-The bot rebuilds `data/index.json` after every publish or delete. A nightly rebuild protects against drift after manual JSON changes:
+## Telegram Bot Usage
+
+1. Create a bot via [@BotFather](https://t.me/botfather) and copy the token.
+2. Find your Telegram user ID via [@userinfobot](https://t.me/userinfobot).
+3. Set `TELEGRAM_BOT_TOKEN` and `TELEGRAM_ADMIN_IDS` in `.env`.
+4. Register the webhook:
+   ```bash
+   php scripts/setup-webhook.php
+   ```
+5. Send any DOCX or PDF file to your bot. It will reply:
+   ```
+   ✅ Topic Published
+   Title: Jealousy
+   Questions: 7
+   Vocabulary: 15
+   URL: https://en.class.sayid.ir/topic/jealousy
+   ```
+
+---
+
+## Rebuilding the Index
+
+`data/index.json` is a pre-built cache of all topics. Rebuild it after any manual edits:
 
 ```bash
-sudo cp deploy/cron /etc/cron.d/free-discussion-class
-sudo chmod 0644 /etc/cron.d/free-discussion-class
+php scripts/rebuild-index.php
 ```
 
-Temporary Telegram downloads are deleted immediately. Optionally install the tmpfiles rule to remove abandoned files after a crash:
+The Telegram bot also rebuilds the index automatically after every upload.
 
-```bash
-sudo cp deploy/free-discussion-class-tmpfiles.conf /etc/tmpfiles.d/
-sudo systemd-tmpfiles --create
-```
+---
 
-## Release deployment
+## License
 
-Build every release in a new timestamped directory, run the checks below, then atomically update `/var/www/en.class/current`. Keep the previous release for instant rollback.
-
-```bash
-find src public app bin -name '*.php' -print0 | xargs -0 -n1 php -l
-php bin/rebuild-index.php
-npm run build
-sudo nginx -t
-sudo ln -sfn /var/www/en.class/releases/NEW_RELEASE /var/www/en.class/current
-sudo systemctl reload php8.3-fpm nginx
-```
-
-## Extending with AI
-
-`DocumentParser` only extracts trusted text, `TopicFactory` maps text into the domain shape, and `TopicPublisher` validates/persists it. Add an AI enrichment implementation between factory and publisher, keep the same topic contract, and require human/admin review for generated claims.
+MIT — see [LICENSE](LICENSE) for details.
