@@ -30,7 +30,6 @@ Weekly topics are uploaded via Telegram (DOCX or PDF). The bot parses, publishes
 ## Features
 
 ### Learning Tools
-
 - Vocabulary with pronunciation, definition, and example sentences
 - Question Wheel — random question picker for class
 - Speaking Timer with presets and pause/resume
@@ -39,7 +38,6 @@ Weekly topics are uploaded via Telegram (DOCX or PDF). The bot parses, publishes
 - Roleplay scenario cards
 
 ### Platform
-
 - Full-text search across topics, words, events, and teachers
 - Filter by CEFR level (A1→C2), date, and popularity
 - Topic of the Day (deterministic daily rotation)
@@ -48,14 +46,12 @@ Weekly topics are uploaded via Telegram (DOCX or PDF). The bot parses, publishes
 - Dark mode only (matches brand)
 
 ### SEO & Meta
-
 - Clean URLs (`/topic/jealousy`)
 - OpenGraph + Twitter Card tags
 - JSON-LD: FAQ Schema + Breadcrumb Schema
 - Auto-generated XML sitemap
 
 ### Telegram Bot
-
 - Send DOCX or PDF → parsed, published, URL replied instantly
 - Admin whitelist by Telegram user ID
 - Commands: `/help` `/list` `/stats` `/rebuild` `/delete`
@@ -64,16 +60,16 @@ Weekly topics are uploaded via Telegram (DOCX or PDF). The bot parses, publishes
 
 ## Tech Stack
 
-| Layer        | Technology                                        |
-| ------------ | ------------------------------------------------- |
-| Language     | PHP 8.3+                                          |
-| Frontend     | Tailwind CSS, Alpine.js, Inter + Barlow Condensed |
-| Storage      | JSON flat files (no database)                     |
-| Server       | Nginx + PHP-FPM (CloudPanel)                      |
-| PDF parsing  | `pdftotext` (poppler-utils)                       |
-| DOCX parsing | Native ZIP/XML                                    |
-| Bot          | Telegram Bot API (webhooks)                       |
-| PWA          | Service Worker + Web App Manifest                 |
+| Layer | Technology |
+|---|---|
+| Language | PHP 8.3+ |
+| Frontend | Tailwind CSS, Alpine.js, Inter + Barlow Condensed |
+| Storage | JSON flat files (no database) |
+| Server | Nginx + PHP-FPM (CloudPanel) |
+| PDF parsing | `pdftotext` (poppler-utils) |
+| DOCX parsing | Native ZIP/XML |
+| Bot | Telegram Bot API (webhooks) |
+| PWA | Service Worker + Web App Manifest |
 
 ---
 
@@ -129,23 +125,13 @@ free-discussion-class/
   "tags": ["emotions", "relationships"],
   "cover": "",
   "questions": [{ "text": "...", "level": "B1", "type": "personal" }],
-  "vocabulary": [
-    {
-      "word": "...",
-      "definition": "...",
-      "pronunciation": "...",
-      "examples": [],
-      "collocations": []
-    }
-  ],
+  "vocabulary": [{ "word": "...", "definition": "...", "pronunciation": "...", "examples": [], "collocations": [] }],
   "phrases": [],
   "idioms": [],
   "collocations": [],
   "quotes": [{ "text": "...", "author": "..." }],
   "teacher_notes": "",
-  "games": [
-    { "name": "...", "description": "...", "players": "4+", "time": "10 min" }
-  ],
+  "games": [{ "name": "...", "description": "...", "players": "4+", "time": "10 min" }],
   "roleplay": [{ "scenario": "...", "roles": [] }],
   "created_at": "2026-06-11"
 }
@@ -184,21 +170,20 @@ See [INSTALL-CLOUDPANEL.md](INSTALL-CLOUDPANEL.md) — 10-step guide:
 
 ## Environment Variables
 
-| Variable                  | Required | Description                  |
-| ------------------------- | -------- | ---------------------------- |
-| `APP_ENV`                 | yes      | `production` / `development` |
-| `APP_URL`                 | yes      | `https://en.class.sayid.ir`  |
-| `TELEGRAM_BOT_TOKEN`      | yes      | From @BotFather              |
-| `TELEGRAM_ADMIN_IDS`      | yes      | Comma-separated user IDs     |
-| `TELEGRAM_WEBHOOK_SECRET` | yes      | Random 32-char string        |
-| `GA_ID`                   | no       | Google Analytics ID          |
+| Variable | Required | Description |
+|---|---|---|
+| `APP_ENV` | yes | `production` / `development` |
+| `APP_URL` | yes | `https://en.class.sayid.ir` |
+| `TELEGRAM_BOT_TOKEN` | yes | From @BotFather |
+| `TELEGRAM_ADMIN_IDS` | yes | Comma-separated user IDs |
+| `TELEGRAM_WEBHOOK_SECRET` | yes | Random 32-char string |
+| `GA_ID` | no | Google Analytics ID |
 
 ---
 
 ## Changelog
 
 ### v2.0 (2026-06)
-
 - Mobile-first redesign with Tailwind CSS
 - Bottom Navigation (Home, Search, Topics, Tools)
 - Unified Search across all content types
@@ -208,7 +193,6 @@ See [INSTALL-CLOUDPANEL.md](INSTALL-CLOUDPANEL.md) — 10-step guide:
 - Events section on Home
 
 ### v1.0 (2026-06)
-
 - Initial PHP flat-file platform
 - Telegram Bot upload workflow
 - DOCX/PDF parser

@@ -13,12 +13,13 @@ class HomeController
         $repo  = new TopicRepository();
         $seo   = new MetaBuilder();
 
-        $featured  = $repo->topicOfTheDay();
-        $recent    = $repo->all([], 1, 6);
-        $tags      = array_slice($repo->allTags(), 0, 20, true);
-        $stats     = $repo->stats();
-        $meta      = $seo->forHome();
+        $featured   = $repo->topicOfTheDay();
+        $recent     = ['items' => $repo->all([], 1, 6)];
+        $tags       = array_slice($repo->allTags(), 0, 20, true);
+        $stats      = $repo->stats();
+        $meta       = $seo->forHome();
+        $activePage = 'home';
 
-        render('pages/home', compact('featured', 'recent', 'tags', 'stats', 'meta'));
+        require ROOT_PATH . '/templates/layouts/base.php';
     }
 }

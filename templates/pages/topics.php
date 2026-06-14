@@ -1,10 +1,11 @@
 <?php
 // templates/pages/topics.php
+require ROOT_PATH . '/bootstrap.php';
+use App\Topic\TopicRepository;
+use App\SEO\MetaBuilder;
+
+$repo  = new TopicRepository();
+$meta  = MetaBuilder::forTopics([]);
 $activePage = 'topics';
-$seoMeta = new \App\SEO\MetaBuilder();
-ob_start();
-echo $seoMeta->renderHead($meta);
-$headContent = ob_get_clean();
-$meta['head'] = $headContent;
-$contentTemplate = 'pages/topics_content';
+
 require ROOT_PATH . '/templates/layouts/base.php';

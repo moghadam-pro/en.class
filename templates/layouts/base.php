@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <?= $meta['head'] ?? '' ?>
 
 <!-- PWA -->
@@ -10,154 +10,192 @@
 <meta name="theme-color" content="#0267c1">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
 
-<!-- Preconnect -->
+<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="/css/app.css<?= '?v=' . VERSION ?>">
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          blue:   '#0267c1',
+          red:    '#a01332',
+          dark:   '#1e212b',
+          darker: '#19171e',
+          card:   '#262a36',
+          muted:  '#3a3f52',
+          text:   '#dddddd',
+          dim:    '#8b92a8',
+        }
+      },
+      fontFamily: {
+        sans:    ['Inter', 'sans-serif'],
+        display: ['Barlow Condensed', 'sans-serif'],
+      }
+    }
+  }
+}
+</script>
+<style>
+  * { -webkit-tap-highlight-color: transparent; }
+  body { background: #1e212b; color: #dddddd; overscroll-behavior-y: none; }
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .pb-nav { padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px)); }
+  .no-scroll::-webkit-scrollbar { display: none; }
+  .no-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+  .badge-a { background:#065f46; color:#6ee7b7; }
+  .badge-b { background:#1e3a8a; color:#93c5fd; }
+  .badge-c { background:#7c2d12; color:#fdba74; }
+  /* Topic detail slide-in */
+  #topicDetail { position:fixed; inset:0; z-index:90; background:#1e212b; transform:translateX(100%); transition:transform .3s cubic-bezier(.4,0,.2,1); overflow-y:auto; max-width:448px; margin:0 auto; }
+  #topicDetail.open { transform:translateX(0); }
+  /* Search overlay */
+  #searchOverlay { position:fixed; inset:0; z-index:100; background:#1e212b; transform:translateY(-100%); transition:transform .3s cubic-bezier(.4,0,.2,1); }
+  #searchOverlay.open { transform:translateY(0); }
+  /* Pill tab active */
+  .pill-tab.active { background:#0267c1 !important; color:#fff !important; }
+  /* filter chip active */
+  .chip.active { background:#0267c1; color:#fff; border-color:#0267c1; }
+  /* Nav active */
+  .nav-btn.active svg, .nav-btn.active span { color:#0267c1; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+  .fade-up { animation: fadeUp .2s ease; }
+  /* Tool modal */
+  #toolModal { position:fixed; inset:0; z-index:110; display:none; }
+  #toolModal.open { display:block; }
+</style>
 
-<!-- Alpine.js — must load before app.js components register -->
+<!-- Alpine.js -->
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body x-data="appShell()" :class="{'reading-mode': readingMode}" class="bg-surface text-body antialiased">
+<body class="dark font-sans max-w-md mx-auto relative min-h-screen">
 
-<!-- Skip to content -->
-<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-blue focus:text-white focus:px-4 focus:py-2 focus:rounded">
-  Skip to content
-</a>
+<?php
+// Determine active page for nav highlighting
+$activePage = $activePage ?? 'home';
+?>
 
-<!-- ── Navigation ──────────────────────────────────────────────────────── -->
-<nav class="nav-bar" role="navigation" aria-label="Main navigation">
-  <div class="nav-inner">
-
-    <!-- Logo -->
-    <a href="/" class="nav-logo" aria-label="Free Discussion Class — Home">
-      <span class="logo-icon" aria-hidden="true">💬</span>
-      <span class="logo-text">
-        <strong>Free</strong> Discussion
-        <small>Class</small>
-      </span>
-    </a>
-
-    <!-- Desktop Links -->
-    <ul class="nav-links" role="list">
-      <li><a href="/" class="nav-link <?= ($activePage ?? '') === 'home' ? 'active' : '' ?>">Home</a></li>
-      <li><a href="/topics" class="nav-link <?= ($activePage ?? '') === 'topics' ? 'active' : '' ?>">Topics</a></li>
-      <li><a href="/random" class="nav-link nav-link--special">🎲 Random</a></li>
-    </ul>
-
-    <!-- Right actions -->
-    <div class="nav-actions">
-      <!-- Search trigger -->
-      <button @click="openSearch()" class="icon-btn" aria-label="Search topics">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      </button>
-
-      <!-- Reading mode -->
-      <button @click="toggleReadingMode()" class="icon-btn" :aria-label="readingMode ? 'Exit reading mode' : 'Enter reading mode'" :title="readingMode ? 'Exit reading mode' : 'Reading mode'">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-      </button>
-
-      <!-- Mobile hamburger -->
-      <button @click="navOpen = !navOpen" class="icon-btn md:hidden" :aria-expanded="navOpen" aria-controls="mobile-menu" aria-label="Toggle menu">
-        <svg x-show="!navOpen" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-        <svg x-show="navOpen" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
+<!-- ══════════════════════════════════════════
+     SEARCH OVERLAY
+══════════════════════════════════════════ -->
+<div id="searchOverlay" class="flex flex-col">
+  <div class="flex items-center gap-3 px-4 py-3 border-b border-brand-card">
+    <button onclick="FDC.closeSearch()" class="p-2 -ml-2 text-brand-dim">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <div class="flex-1 flex items-center gap-2 bg-brand-card rounded-xl px-3 border border-brand-muted/30">
+      <svg class="w-4 h-4 text-brand-dim flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35" stroke-linecap="round"/></svg>
+      <input id="searchInput" type="search" placeholder="Topics, words, events, teachers…"
+        class="flex-1 bg-transparent py-3 text-sm text-brand-text placeholder-brand-dim outline-none"
+        oninput="FDC.search(this.value)">
     </div>
   </div>
+  <div class="flex-1 overflow-y-auto no-scroll">
+    <div class="p-4">
+      <p id="searchLabel" class="text-brand-dim text-xs uppercase tracking-widest font-semibold mb-3">Recent</p>
+      <div id="searchResults" class="space-y-2"></div>
+    </div>
+  </div>
+</div>
 
-  <!-- Mobile menu -->
-  <div id="mobile-menu" x-show="navOpen" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="mobile-menu" @click.outside="navOpen = false">
-    <a href="/" class="mobile-link" @click="navOpen = false">🏠 Home</a>
-    <a href="/topics" class="mobile-link" @click="navOpen = false">📚 Topics</a>
-    <a href="/random" class="mobile-link" @click="navOpen = false">🎲 Random Topic</a>
+<!-- ══════════════════════════════════════════
+     TOPIC DETAIL
+══════════════════════════════════════════ -->
+<div id="topicDetail" class="pb-nav">
+  <!-- Sticky header -->
+  <div class="sticky top-0 z-10 bg-brand-dark/95 backdrop-blur border-b border-brand-card">
+    <div class="flex items-center gap-3 px-4 py-3">
+      <button onclick="FDC.closeDetail()" class="p-1 -ml-1 text-brand-dim">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <div class="flex-1 min-w-0">
+        <h1 id="detailTitle" class="font-display text-xl font-bold text-brand-text truncate"></h1>
+        <div id="detailMeta" class="flex items-center gap-2 mt-0.5 flex-wrap"></div>
+      </div>
+      <button id="detailShareBtn" onclick="FDC.shareDetail()" class="p-1 text-brand-dim">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+      </button>
+    </div>
+    <!-- Pill tabs -->
+    <div class="flex gap-2 px-4 pb-3 overflow-x-auto no-scroll">
+      <button class="pill-tab active flex-shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-brand-card text-brand-dim transition-all" onclick="FDC.detailTab('questions',this)">Questions</button>
+      <button class="pill-tab flex-shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-brand-card text-brand-dim transition-all" onclick="FDC.detailTab('vocab',this)">Vocabulary</button>
+      <button class="pill-tab flex-shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-brand-card text-brand-dim transition-all" onclick="FDC.detailTab('phrases',this)">Phrases & Idioms</button>
+      <button class="pill-tab flex-shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-brand-card text-brand-dim transition-all" onclick="FDC.detailTab('games',this)">Games</button>
+    </div>
+  </div>
+  <div id="detailBody" class="p-4"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TOOL MODAL
+══════════════════════════════════════════ -->
+<div id="toolModal">
+  <div class="absolute inset-0 bg-black/60" onclick="FDC.closeTool()"></div>
+  <div class="absolute bottom-0 left-0 right-0 max-w-md mx-auto bg-brand-card rounded-t-3xl p-6" style="padding-bottom:calc(1.5rem + env(safe-area-inset-bottom,0px))">
+    <div id="toolContent"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MAIN PAGES
+══════════════════════════════════════════ -->
+<div id="mainShell" class="pb-nav">
+
+  <!-- HOME -->
+  <div id="page-home" class="page <?= $activePage==='home'?'block':'hidden' ?>">
+    <?php require ROOT_PATH . '/templates/pages/home_content.php'; ?>
+  </div>
+
+  <!-- SEARCH -->
+  <div id="page-search" class="page <?= $activePage==='search'?'block':'hidden' ?>">
+    <?php require ROOT_PATH . '/templates/pages/search_content.php'; ?>
+  </div>
+
+  <!-- TOPICS -->
+  <div id="page-topics" class="page <?= $activePage==='topics'?'block':'hidden' ?>">
+    <?php require ROOT_PATH . '/templates/pages/topics_content.php'; ?>
+  </div>
+
+  <!-- TOOLS -->
+  <div id="page-tools" class="page <?= $activePage==='tools'?'block':'hidden' ?>">
+    <?php require ROOT_PATH . '/templates/pages/tools_content.php'; ?>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     BOTTOM NAVIGATION
+══════════════════════════════════════════ -->
+<nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-brand-darker/95 backdrop-blur border-t border-brand-card z-50 safe-bottom">
+  <div class="flex">
+    <button onclick="FDC.tab('home',this)" class="nav-btn <?= $activePage==='home'?'active':'' ?> flex-1 flex flex-col items-center gap-0.5 py-3">
+      <svg class="w-5 h-5 <?= $activePage==='home'?'text-brand-blue':'text-brand-dim' ?>" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      <span class="text-[10px] font-semibold <?= $activePage==='home'?'text-brand-blue':'text-brand-dim' ?>">Home</span>
+    </button>
+    <button onclick="FDC.tab('search',this)" class="nav-btn <?= $activePage==='search'?'active':'' ?> flex-1 flex flex-col items-center gap-0.5 py-3">
+      <svg class="w-5 h-5 <?= $activePage==='search'?'text-brand-blue':'text-brand-dim' ?>" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35" stroke-linecap="round"/></svg>
+      <span class="text-[10px] font-semibold <?= $activePage==='search'?'text-brand-blue':'text-brand-dim' ?>">Search</span>
+    </button>
+    <button onclick="FDC.tab('topics',this)" class="nav-btn <?= $activePage==='topics'?'active':'' ?> flex-1 flex flex-col items-center gap-0.5 py-3">
+      <svg class="w-5 h-5 <?= $activePage==='topics'?'text-brand-blue':'text-brand-dim' ?>" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+      <span class="text-[10px] font-semibold <?= $activePage==='topics'?'text-brand-blue':'text-brand-dim' ?>">Topics</span>
+    </button>
+    <button onclick="FDC.tab('tools',this)" class="nav-btn <?= $activePage==='tools'?'active':'' ?> flex-1 flex flex-col items-center gap-0.5 py-3">
+      <svg class="w-5 h-5 <?= $activePage==='tools'?'text-brand-blue':'text-brand-dim' ?>" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+      <span class="text-[10px] font-semibold <?= $activePage==='tools'?'text-brand-blue':'text-brand-dim' ?>">Tools</span>
+    </button>
   </div>
 </nav>
 
-<!-- ── Global Search Overlay ───────────────────────────────────────────── -->
-<div x-show="searchOpen" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="search-overlay" @keydown.escape.window="closeSearch()" role="dialog" aria-modal="true" aria-label="Search">
-  <div class="search-backdrop" @click="closeSearch()"></div>
-  <div class="search-box">
-    <div class="search-input-wrap">
-      <svg class="search-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="search" x-ref="searchInput" x-model="searchQuery" @input.debounce.300="doSearch()" @keydown.escape="closeSearch()" placeholder="Search topics, vocabulary, questions…" class="search-input" autocomplete="off" spellcheck="false">
-      <button @click="closeSearch()" class="search-close" aria-label="Close search">ESC</button>
-    </div>
-    <!-- Results -->
-    <div x-show="searchResults.length > 0" class="search-results" role="listbox">
-      <template x-for="r in searchResults" :key="r.slug">
-        <a :href="'/topic/' + r.slug" class="search-result-item" role="option" @click="closeSearch()">
-          <div class="result-meta">
-            <span class="level-badge" :class="'level-' + r.level.toLowerCase()" x-text="r.level"></span>
-            <span x-text="(r.tags || []).slice(0,2).join(' · ')"></span>
-          </div>
-          <div class="result-title" x-text="r.title"></div>
-          <p class="result-summary" x-text="r.summary.slice(0, 100) + '...'"></p>
-        </a>
-      </template>
-    </div>
-    <div x-show="searchQuery.length > 1 && searchResults.length === 0 && !searchLoading" class="search-empty">
-      No topics found for "<span x-text="searchQuery"></span>"
-    </div>
-    <div x-show="searchLoading" class="search-loading">Searching…</div>
-  </div>
-</div>
-
-<!-- ── Main Content ────────────────────────────────────────────────────── -->
-<main id="main" tabindex="-1">
-  <?php require ROOT_PATH . '/templates/' . ($contentTemplate ?? 'pages/home') . '.php'; ?>
-</main>
-
-<!-- ── Footer ─────────────────────────────────────────────────────────── -->
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <span class="logo-icon">💬</span>
-      <div>
-        <strong>Free Discussion Class</strong>
-        <p>Interactive ESL discussion topics for classrooms worldwide.</p>
-      </div>
-    </div>
-    <div class="footer-links">
-      <a href="/topics">Browse Topics</a>
-      <a href="/random">Random Topic</a>
-      <a href="/sitemap.xml">Sitemap</a>
-    </div>
-    <p class="footer-copy">© <?= date('Y') ?> <?= e(config('app.domain')) ?></p>
-  </div>
-</footer>
-
-<!-- ── Vocabulary Modal ────────────────────────────────────────────────── -->
-<div x-show="vocabModal.open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" class="modal-overlay" @keydown.escape.window="vocabModal.open = false" role="dialog" aria-modal="true" :aria-label="'Vocabulary: ' + vocabModal.word">
-  <div class="modal-backdrop" @click="vocabModal.open = false"></div>
-  <div class="modal-card vocab-modal">
-    <button @click="vocabModal.open = false" class="modal-close" aria-label="Close">
-      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-    <div class="vocab-header">
-      <h2 class="vocab-word" x-text="vocabModal.word"></h2>
-      <span class="vocab-pronunciation" x-show="vocabModal.pronunciation" x-text="'/' + vocabModal.pronunciation + '/'"></span>
-    </div>
-    <p class="vocab-definition" x-text="vocabModal.definition"></p>
-    <div x-show="vocabModal.examples && vocabModal.examples.length > 0" class="vocab-examples">
-      <h3>Examples</h3>
-      <ul>
-        <template x-for="ex in vocabModal.examples"><li x-text="ex"></li></template>
-      </ul>
-    </div>
-    <div x-show="vocabModal.collocations && vocabModal.collocations.length > 0" class="vocab-collocations">
-      <h3>Collocations</h3>
-      <div class="collocation-chips">
-        <template x-for="col in vocabModal.collocations"><span class="chip" x-text="col"></span></template>
-      </div>
-    </div>
-    <button @click="copyVocab()" class="btn btn--outline btn--sm mt-4">📋 Copy</button>
-  </div>
-</div>
-
-<!-- ── Toast ───────────────────────────────────────────────────────────── -->
-<div x-show="toast.show" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="toast" role="alert" aria-live="polite" x-text="toast.message"></div>
+<!-- Toast -->
+<div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 z-[200] bg-brand-card text-brand-text text-sm font-medium px-4 py-2 rounded-xl shadow-lg opacity-0 transition-opacity pointer-events-none"></div>
 
 <script src="/js/app.js<?= '?v=' . VERSION ?>"></script>
 <?php if (config('seo.google_analytics')): ?>
