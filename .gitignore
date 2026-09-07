@@ -27,3 +27,12 @@ Thumbs.db
 *.swp
 *.swo
 .DS_Store
+
+# Cross-platform OS metadata
+._*
+.Spotlight-V100
+.Trashes
+[Tt]humbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
